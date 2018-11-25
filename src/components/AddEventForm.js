@@ -32,8 +32,9 @@ class AddEventForm extends Component {
     var eventData = { ...this.state }
 
     this.setState({
-      username: '',
-      password: ''
+      name: '',
+      description: '',
+      price: ''
     });
 
     this.props.addEvent(eventData);

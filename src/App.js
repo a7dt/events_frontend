@@ -6,6 +6,7 @@ import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import EventsContainer from "./components/EventsContainer";
 
+// For session to work correctly with backend
 axios.defaults.withCredentials = true
 
 class App extends Component {
@@ -23,9 +24,8 @@ class App extends Component {
     this.endSession = this.endSession.bind(this);
   }
 
-  register(user) {
 
-    // user.username, user.password
+  register(user) {
 
     var name = user.username;
     var pwd = user.password;
@@ -34,7 +34,7 @@ class App extends Component {
       username: name,
       password: pwd
     })
-    .then( (response) => {
+    .then( (res) => {
         this.setState({
           message: "Register succeeded."
         });
@@ -44,12 +44,10 @@ class App extends Component {
         message: "Couldnt save user: " + error.message
       });
     });
-
   }
 
 
   login(user) {
-    // user.username , user.password
 
     var name = user.username;
     var pwd = user.password;
@@ -58,11 +56,10 @@ class App extends Component {
       username: name,
       password: pwd
     })
-    .then( (response) => {
-
+    .then( (res) => {
         this.setState({
           loggedIn: true,
-          message: "You are logged in."
+          message: "Login succeeded."
         });
     })
     .catch( (error) => {
@@ -72,41 +69,54 @@ class App extends Component {
     });
   }
 
-  getMsgFromComponent(msg) {
-    this.setState({
-      message: msg
-    });
-  }
 
   endSession() {
+
     axios.get('http://localhost:5000/users/logout')
     .then( (res) => {
       this.setState({
         loggedIn: false,
         message: "Logout succesful"
-      })
+      });
     })
-    .catch((error) => {
+    .catch( (error) => {
       this.setState({
         message: "Logout failed: " + error.message
       });
     });
   }
 
-  render() {
 
+  // This function deals with message from child component EventsContainer
+  getMsgFromComponent(msg) {
+    this.setState({
+      message: msg
+    });
+  }
+
+  render() {
     return (
+
       <div>
 
         <p> {this.state.message ? this.state.message: ''} </p>
-        <RegisterForm register = {this.register} />
-        <LoginForm login = {this.login} />
-        <hr />
 
-        <div>
-          {this.state.loggedIn ? <button onClick={this.endSession}> logout </button> : ''}
-          {this.state.loggedIn ? <EventsContainer writeMsg={this.getMsgFromComponent} /> : ''}
-        </div>
+        {
+          this.state.loggedIn ?
+
+          <div>
+            <button onClick={this.endSession}> logout </button>
+            <EventsContainer writeMsg={this.getMsgFromComponent} />
+          </div>
+
+          :
+
+          <div>
+            <RegisterForm register = {this.register} />
+            <LoginForm login = {this.login} />
+            <hr />
+          </div>
+        }
 
       </div>
     );

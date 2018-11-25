@@ -29,6 +29,10 @@ class SearchForm extends Component {
 
     var searchData = { ...this.state };
 
+    this.setState({
+      searchterm: '',
+    });
+
     this.props.searchEvent(searchData);
   }
 

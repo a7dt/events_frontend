@@ -58,34 +58,20 @@ class EventsContainer extends Component {
   }
 
   componentDidMount() {
+
     axios.get('http://localhost:5000')
-    .then((response) => {
-
-      var data = response.data.events;
-
-      //var d = Object.keys(data).map(i => data[i])
+    .then( (res) => {
+      var data = res.data.events;
 
       this.setState({
         events: data
-      })
-
+      });
     })
     .catch((error) => {
       this.props.writeMsg("Couldn't load events: " + error.message);
-    })
+    });
   }
 
-  fuck = () => {
-
-    var obj = this.state.events;
-
-    /*obj.map( (one) => {
-      alert(one.name)
-    })*/
-
-    alert(obj)
-
-  }
 
   addEvent(eventData) {
 
@@ -100,23 +86,23 @@ class EventsContainer extends Component {
       description: desc,
       price: price
     })
-    .then( (response) => {
+    .then( (res) => {
+
+      this.props.writeMsg("Event added succesfully");
       return axios.get('http://localhost:5000');
+
     })
-    .then( (response) => {
+    .then( (res) => {
 
-      var data = response.data.events;
-
-      //var d = Object.keys(data).map(i => data[i])
+      var data = res.data.events;
 
       this.setState({
         events: data
-      })
+      });
+
     })
     .catch( (error) => {
-      this.setState({
-        message: "Couldnt add event: " + error.message
-      });
+      this.props.writeMsg("Couldnt add event: " + error.message);
     });
   }
 
@@ -126,6 +112,9 @@ class EventsContainer extends Component {
     axios.get("http://localhost:5000/delete/" + id)
 
       .then( (response) => {
+
+        this.props.writeMsg("Event deleted succesfully");
+
         return axios.get('http://localhost:5000');
       })
 
@@ -138,8 +127,9 @@ class EventsContainer extends Component {
         })
 
       })
-      .catch((err) => alert(err))
-
+      .catch( (err) => {
+        this.props.writeMsg("Couldnt delete event: " + err);
+      });
   }
 
   editEvent(id) {
@@ -153,7 +143,7 @@ class EventsContainer extends Component {
     })
 
     .catch((err) => {
-      alert(err);
+      this.props.writeMsg("Couldnt open edit: " + err);
     });
 
   }
@@ -171,6 +161,9 @@ class EventsContainer extends Component {
       price: eventData.price
     })
     .then( (response) => {
+
+      this.props.writeMsg("Event updated.");
+
       return axios.get('http://localhost:5000');
     })
     .then( (res) => {
@@ -181,7 +174,7 @@ class EventsContainer extends Component {
       })
     })
     .catch((error) => {
-      alert(error);
+      this.props.writeMsg("Couldnt confirmEdit: " + error);
     });
 
   }
@@ -193,16 +186,17 @@ class EventsContainer extends Component {
 
     var str = "http://localhost:5000/search?term=" + searchterm + "&isFree:" + isFree;
 
-    alert(str)
-
     axios.get(str)
     .then((res) => {
+
+      this.props.writeMsg("");
+
       this.setState({
         events: res.data.events
       })
     })
     .catch((error) => {
-      alert(error);
+      this.props.writeMsg("Search failed: " + error);
     });
 
   }
@@ -223,8 +217,6 @@ class EventsContainer extends Component {
         <SearchForm searchEvent = {this.searchEvent} />
 
         <hr />
-
-        <button onClick={this.fuck} />
 
         { this.state.events ? <EventList
                                 eventslist={this.state.events}
