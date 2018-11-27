@@ -31,6 +31,7 @@ class SearchForm extends Component {
 
     this.setState({
       searchterm: '',
+      isFree: false
     });
 
     this.props.searchEvent(searchData);
@@ -40,24 +41,29 @@ class SearchForm extends Component {
 
     return (
       <div>
-        <p> search event </p>
+        <p> Search event </p>
 
         <form onSubmit = {this.handleSubmit}>
 
           <label>
-            search term:
+            search from event name:
+            <br />
             <input name="searchterm" type="text" value={this.state.searchterm} onChange={this.handleChange} />
           </label>
           <br />
           <label>
             show free events:
-            <input type="checkbox" name="isFree" value={this.state.isFree} onChange={this.handleChange} />
+            <input type="checkbox" name="isFree" checked={this.state.isFree} value={this.state.isFree} onChange={this.handleChange} />
           </label>
           <br />
-          <input type="submit" value="submit" />
+          <input type="submit" value="search" />
 
         </form>
+
+        <button onClick = {this.props.resetSearch}> Reset search </button>
+
       </div>
+
     );
   }
 }

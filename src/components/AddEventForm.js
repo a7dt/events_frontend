@@ -44,26 +44,29 @@ class AddEventForm extends Component {
 
     return (
       <div>
-        <p> add event </p>
+        <p> Add event </p>
 
         <form onSubmit = {this.handleSubmit}>
 
           <label>
-            events name:
+            Events name:
+            <br />
             <input name="name" type="text" value={this.state.name} onChange={this.handleChange} />
           </label>
           <br />
           <label>
-            description:
+            Description:
+            <br />
             <input name="description" type="textarea" value={this.state.description} onChange={this.handleChange} />
           </label>
           <br />
           <label>
-            price:
+            Price:
+            <br />
             <input name="price" type="text" value={this.state.price} onChange={this.handleChange} />
           </label>
-
-          <input type="submit" value="submit" />
+          <br />
+          <input type="submit" value="add event" />
 
         </form>
       </div>

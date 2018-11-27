@@ -41,6 +41,13 @@ class EditEventForm extends Component {
 
     var eventData = { ...this.state }
 
+    this.setState({
+      id: '',
+      name: '',
+      description: '',
+      price: ''
+    });
+
     this.props.confirm(eventData);
   }
 
@@ -48,25 +55,29 @@ class EditEventForm extends Component {
 
     return (
       <div>
-        <p> EDIT EVENT </p>
 
-        <form onSubmit = {this.handleSubmit}>
+        <form onSubmit = {this.handleSubmit} style = {{background:"lightgreen", padding:"0 10px 10px 10px"}}>
+
+          <p> Edit event </p>
 
           <label>
             events name:
+            <br />
             <input name="name" type="text" value={this.state.name} onChange={this.handleChange} />
           </label>
           <br />
           <label>
             description:
+            <br />
             <input name="description" type="textarea" value={this.state.description} onChange={this.handleChange} />
           </label>
           <br />
           <label>
             price:
+            <br />
             <input name="price" type="text" value={this.state.price} onChange={this.handleChange} />
           </label>
-
+          <br />
           <input type="submit" value="submit" />
 
         </form>

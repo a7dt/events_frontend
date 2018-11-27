@@ -41,21 +41,25 @@ class RegisterForm extends Component {
 
     return (
       <div>
-        <p> register </p>
+
 
         <form onSubmit = {this.handleSubmit}>
 
+          <p style = {{fontWeight: "bold"}}> Register </p>
+
           <label>
             Username:
+            <br />
             <input name="username" type="text" value={this.state.username} onChange={this.handleChange} />
           </label>
           <br />
           <label>
             Password:
+            <br />
             <input name="password" type="text" value={this.state.password} onChange={this.handleChange} />
           </label>
-
-          <input type="submit" value="submit" />
+          <br />
+          <input type="submit" value="register" />
 
         </form>
       </div>

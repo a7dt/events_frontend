@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
 import axios from 'axios';
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
@@ -24,7 +22,7 @@ class App extends Component {
     this.endSession = this.endSession.bind(this);
   }
 
-
+  // Registering new user
   register(user) {
 
     var name = user.username;
@@ -41,12 +39,12 @@ class App extends Component {
     })
     .catch( (error) => {
       this.setState({
-        message: "Couldnt save user: " + error.message
+        message: "Couldnt save user: " + error
       });
     });
   }
 
-
+  // Logging the user in
   login(user) {
 
     var name = user.username;
@@ -69,7 +67,7 @@ class App extends Component {
     });
   }
 
-
+  // Logout
   endSession() {
 
     axios.get('http://localhost:5000/users/logout')
@@ -86,8 +84,7 @@ class App extends Component {
     });
   }
 
-
-  // This function deals with message from child component EventsContainer
+  // This function handles message from child component
   getMsgFromComponent(msg) {
     this.setState({
       message: msg
@@ -95,9 +92,9 @@ class App extends Component {
   }
 
   render() {
-    return (
 
-      <div>
+    return (
+      <div style={{margin:"20px"}}>
 
         <p> {this.state.message ? this.state.message: ''} </p>
 
@@ -113,6 +110,7 @@ class App extends Component {
 
           <div>
             <RegisterForm register = {this.register} />
+            <hr />
             <LoginForm login = {this.login} />
             <hr />
           </div>
